@@ -1,0 +1,1 @@
+<item.icon className="p-1 rounded-lg text-white bg-primary !h-20 !w-20" />
