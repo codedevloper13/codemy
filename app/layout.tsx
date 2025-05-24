@@ -1,15 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
+import { SidebarProvider } from "@/components/ui/sidebar";
+
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+import { AppSidebar } from "./(routes)/(root)/components";
+import { Navbar } from "@/components/Shared";
+const poppinsFont = Poppins({
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800", "900"],
+  variable: "--font-poppins",
 });
 
 export const metadata: Metadata = {
@@ -23,12 +23,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          colorPrimary: "#FF6636",
+          colorText: "black",
+        },
+      }}>
+      <html lang="en">
+        <body className={`${poppinsFont.className}  antialiased`}>
+          <SidebarProvider>
+            <AppSidebar />
+            <div className="w-full bg-stone-100 flex flex-col min-h-screen">
+              <Navbar />
+              <main className="flex-1">{children}</main>
+            </div>
+          </SidebarProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
